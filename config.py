@@ -62,7 +62,7 @@ UI_BG_COLOR = arcade.color.DARK_GRAY
 
 # --- Пути ---
 # Папка с пользовательскими изображениями
-ASSET_PATH = "images/"
+ASSET_PATH = "assets/"
 
 # --- ПРЕДМЕТЫ ---
 CHEST_PROBABILITY = 1.0

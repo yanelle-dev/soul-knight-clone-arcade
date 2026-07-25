@@ -8,7 +8,7 @@ class Boss(BaseEnemy):
     def __init__(self, x, y, player, room_rect):
         # Босс большой и медленный
         super().__init__(x, y, player, room_rect)
-        self.texture = arcade.load_texture("images/boss.webp")
+        self.texture = arcade.load_texture("assets/boss.webp")
         self.base_scale = 0.2  # Базовый размер босса
         self.scale = self.base_scale  # Текущий масштаб (для анимации)
         self.hp = 500  # Много жизней

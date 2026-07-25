@@ -30,7 +30,7 @@ class BaseEnemy(arcade.Sprite):
         self.center_x += self.change_x
         self.center_y += self.change_y
 
-        # --- ВАЖНО: ОГРАНИЧЕНИЕ КОМНАТОЙ ---
+        # ОГРАНИЧЕНИЕ КОМНАТОЙ
         # Враг не может выйти за пределы комнаты (с небольшим отступом от стен)
         padding = 32  # Половина тайла
         if self.center_x < self.room_rect.left + padding: self.center_x = self.room_rect.left + padding

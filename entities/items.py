@@ -91,7 +91,7 @@ class CrystalDrop(Item):
 # --- ПОРТАЛ (БЕЗ АНИМАЦИИ) ---
 class Portal(Entity):
     def __init__(self, x, y):
-        super().__init__("images/portal.png", 0.5, x, y)
+        super().__init__("assets/portal.png", 0.5, x, y)
 
     def update(self, delta_time: float = 1/60):
         super().update(delta_time)
