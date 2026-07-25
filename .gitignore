@@ -12,6 +12,8 @@ dist/
 build/
 
 # PyInstaller
+dist/
+build/
 *.spec.bak
 manifest.cfg
 
