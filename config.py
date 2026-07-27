@@ -1,14 +1,14 @@
 import arcade
 
 # --- Настройки окна ---
-SCREEN_WIDTH = 1024
-SCREEN_HEIGHT = 768
+SCREEN_WIDTH = 960
+SCREEN_HEIGHT = 720
 SCREEN_TITLE = "Soul Knight Clone (Arcade)"
 
 # --- Настройки игры ---
 # Общий масштаб спрайтов (стены, враги, предметы)
-SPRITE_SCALING = 0.5
-TILE_SCALING = 0.5
+SPRITE_SCALING = 0.375
+TILE_SCALING = 0.375
 PLAYER_SPEED = 3.5
 PLAYER_MAX_HP = 100
 PLAYER_MAX_ARMOR = 50
@@ -75,7 +75,7 @@ SKINS_CONFIG = [
     {
         "name": "Adventurer",
         "price": 0,
-        "image": "images/pers.png",
+        "image": "assets/pers.png",
         "icon": ":resources:images/animated_characters/female_adventurer/femaleAdventurer_idle.png"
     },
     {
@@ -101,7 +101,7 @@ WEAPONS_CONFIG = [
         "name": "Sword",
         "price": 0,
         "class_name": "Sword",
-        "image": "images/mech.png",  # ВАША КАРТИНКА
+        "image": "assets/mech.png",  # ВАША КАРТИНКА
         "damage": 15,
         "cooldown": 0.4,
         "type": "melee"
@@ -110,7 +110,7 @@ WEAPONS_CONFIG = [
         "name": "Blaster",
         "price": 200,
         "class_name": "Blaster",
-        "image": "images/blaster.png",  # ВАША КАРТИНКА
+        "image": "assets/blaster.png",  # ВАША КАРТИНКА
         "damage": 5,
         "cooldown": 0.1,
         "type": "ranged"

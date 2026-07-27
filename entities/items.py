@@ -33,13 +33,13 @@ class WeaponDrop(Item):
 
 class Chest(Entity):
     def __init__(self, x, y):
-        super().__init__("images/sunduk.png", config.SPRITE_SCALING * 0.7, x, y)
+        super().__init__("assets/sunduk.png", config.SPRITE_SCALING * 0.7, x, y)
         self.color = (255, 255, 255)
 
     def open(self):
         rnd = random.random()
         if rnd < 0.4:
-            return WeaponDrop(self.center_x, self.center_y, "Blaster", "images/blaster.png")
+            return WeaponDrop(self.center_x, self.center_y, "Blaster", "assets/blaster.png")
         elif rnd < 0.7:
             return HealthPotion(self.center_x, self.center_y)
         else:
@@ -47,7 +47,7 @@ class Chest(Entity):
 
 class HealthPotion(Item):
     def __init__(self, x, y):
-        super().__init__("images/aptechka.png", x, y)
+        super().__init__("assets/aptechka.png", x, y)
         self.heal_amount = 20
 
     def on_pickup(self, player):

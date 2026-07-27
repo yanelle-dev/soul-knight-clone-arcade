@@ -88,17 +88,21 @@ class Player(Entity):
         if hasattr(self.weapon, 'update'):
             self.weapon.update(delta_time)
 
-        # Применяем масштаб персонажа из config (на случай изменения)
-        if hasattr(config, 'PLAYER_SCALE'):
-            self.scale = config.PLAYER_SCALE
-
-        # Определяем, куда смотрит игрок
+        # Определяем направление движения игрока
         if self.change_x < 0:
             self.facing_left = True
         elif self.change_x > 0:
             self.facing_left = False
 
-        # Расстояние от игрока до оружия (чтобы оружие было рядом, а не внутри)
+        # Применяем масштаб и зеркалирование для самого персонажа
+        player_scale = getattr(config, 'PLAYER_SCALE', 1.0)
+        self.scale_y = player_scale
+        if self.facing_left:
+            self.scale_x = -player_scale  # Отрицательный scale_x зеркалит персонажа влево
+        else:
+            self.scale_x = player_scale   # Положительный scale_x оставляет стандартный вид (вправо)
+
+        # Расстояние от игрока до оружия
         distance = 25
 
         # Проверяем тип оружия для правильного позиционирования и масштаба

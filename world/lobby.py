@@ -1,6 +1,5 @@
 import arcade
 import config
-# IMPORTANT: use full path world.tiles
 from world.tiles import Wall, Floor
 from entities.interactables import Portal, SkinChanger, WeaponStand
 
@@ -13,31 +12,43 @@ class Lobby:
         self.decor_list = arcade.SpriteList()  # For furniture
 
     def setup(self):
-        # --- GENERATE FLOOR (WITH RUG) ---
         temp_wall = Wall(0, 0)
-        grid = int(temp_wall.width)
+        grid = int(temp_wall.width)  # 64 px
+        half_grid = grid // 2        # 32 px (смещение до центра тайла)
+
+        # Рассчитываем ровное количество столбцов и строк
+        columns = config.SCREEN_WIDTH // grid  # 15
+        rows = config.SCREEN_HEIGHT // grid    # 10
 
         center_x = config.SCREEN_WIDTH // 2
         center_y = config.SCREEN_HEIGHT // 2
 
-        for x in range(0, config.SCREEN_WIDTH, grid):
-            for y in range(0, config.SCREEN_HEIGHT, grid):
-                # Create floor
+        for col in range(columns):
+            for row in range(rows):
+                # Сдвигаем координаты на half_grid
+                x = col * grid + half_grid
+                y = row * grid + half_grid
+
+                # Создаем пол
                 floor = Floor(x, y)
 
-                # Make a "rug" in the center
-                if abs(x - center_x) < 200 and abs(y - center_y) < 150:
-                    floor.color = (100, 100, 150)  # Light blue rug
+                # Настройка ковра по координатам
+                rug_left = center_x - 200 + grid
+                rug_right = center_x + 200 
+
+                if rug_left <= x < rug_right and abs(y - center_y) < 150:
+                    floor.color = (100, 100, 150)
                 else:
-                    floor.color = (40, 50, 60)  # Dark main floor
+                    floor.color = (40, 50, 60)
 
                 self.floor_list.append(floor)
 
-                # Walls on edges
-                if x == 0 or x >= config.SCREEN_WIDTH - grid or y == 0 or y >= config.SCREEN_HEIGHT - grid:
+                # Ставим стены строго по внешнему периметру сетки
+                if col == 0 or col == columns - 1 or row == 0 or row == rows - 1:
                     self.wall_list.append(Wall(x, y))
 
         # --- INTERACTABLES ---
+
 
         # 1. Wardrobe (Left)
         self.wardrobe = SkinChanger(200, center_y)
@@ -61,14 +72,14 @@ class Lobby:
         self.decor_list.append(table)
 
         # 3. Portal (Top)
-        self.portal = Portal(center_x, config.SCREEN_HEIGHT - 120)
+        self.portal = Portal(center_x, config.SCREEN_HEIGHT - 100)
         self.interactable_list.append(self.portal)
 
-        # 4. TV/Sofa (Bottom) - FIXED RESOURCE PATH
-        # Changed bridgeLogs.png to boxCrate_double.png because bridgeLogs was removed in Arcade 3.0
-        sofa = arcade.Sprite(":resources:images/tiles/boxCrate_double.png", 0.8)
-        sofa.center_x = center_x
-        sofa.center_y = 150
-        # Color it slightly to look different
-        sofa.color = (150, 100, 100)
-        self.wall_list.append(sofa)
+        # # 4. TV/Sofa (Bottom) - FIXED RESOURCE PATH
+        # # Changed bridgeLogs.png to boxCrate_double.png because bridgeLogs was removed in Arcade 3.0
+        # sofa = arc
+        # self.wall_list.append(sofa)ade.Sprite(":resources:images/tiles/boxCrate_double.png", 0.8)
+        # sofa.center_x = center_x
+        # sofa.center_y = 150
+        # # Color it slightly to look different
+        # sofa.color = (150, 100, 100)

@@ -12,9 +12,8 @@ class Interactable(arcade.Sprite):
 
 class Portal(Interactable):
     def __init__(self, x, y):
-        # Выглядит как синий портал (лестница или спираль)
-        super().__init__(":resources:images/tiles/signExit.png", x, y, config.TILE_SCALING)
-        self.text = "Press [E] to Start Run"
+        super().__init__("assets/portal.png", x, y, 0.25)
+        self.text = "Press [E] to Start Game"
 
     def on_interact(self, player, game_window):
         # Запуск генерации подземелья
