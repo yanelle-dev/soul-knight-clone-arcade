@@ -2,13 +2,13 @@ import arcade
 
 # --- Настройки окна ---
 SCREEN_WIDTH = 960
-SCREEN_HEIGHT = 720
+SCREEN_HEIGHT = 640
 SCREEN_TITLE = "Soul Knight Clone (Arcade)"
 
 # --- Настройки игры ---
 # Общий масштаб спрайтов (стены, враги, предметы)
-SPRITE_SCALING = 0.375
-TILE_SCALING = 0.375
+SPRITE_SCALING = 0.3
+TILE_SCALING = 0.3
 PLAYER_SPEED = 3.5
 PLAYER_MAX_HP = 100
 PLAYER_MAX_ARMOR = 50

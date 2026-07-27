@@ -179,12 +179,12 @@ soul-knight-clone-arcade/
 
 | Параметр | Значение | Описание |
 |----------|----------|----------|
-| `SCREEN_WIDTH/HEIGHT` | 1024×768 | Размер окна |
+| `SCREEN_WIDTH/HEIGHT` | 960×640 | Размер окна |
+| `SPRITE_SCALING/TILE_SCALING` | 0.3 | Масштаб спрайтов |
 | `PLAYER_SPEED` | 3.5 | Скорость движения |
 | `PLAYER_MAX_HP` | 100 | Макс. здоровье |
 | `PLAYER_MAX_ARMOR` | 50 | Макс. щит |
 | `BULLET_SPEED` | 12 | Скорость пули |
-| `SPRITE_SCALING` | 0.5 | Масштаб спрайтов |
 
 Скины: Adventurer (0), Knight (50), Robot (100), Zombie (200).
 

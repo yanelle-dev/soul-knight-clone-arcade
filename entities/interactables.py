@@ -12,7 +12,7 @@ class Interactable(arcade.Sprite):
 
 class Portal(Interactable):
     def __init__(self, x, y):
-        super().__init__("assets/portal.png", x, y, 0.25)
+        super().__init__("assets/portal.png", x, y, 0.5)
         self.text = "Press [E] to Start Game"
 
     def on_interact(self, player, game_window):
@@ -21,19 +21,17 @@ class Portal(Interactable):
 
 class SkinChanger(Interactable):
     def __init__(self, x, y):
-        # Выглядит как табличка
-        super().__init__(":resources:images/tiles/signRight.png", x, y, config.TILE_SCALING)
+        super().__init__(":resources:images/tiles/signExit.png", x, y, config.TILE_SCALING)
         self.text = "Press [E] to Change Skin"
 
     def on_interact(self, player, game_window):
-        # Открываем меню выбора скина
         game_window.open_skin_menu()
 
 
 class WeaponStand(Interactable):
     """Интерактивный объект для открытия оружейного меню."""
     def __init__(self, x, y):
-        super().__init__(":resources:images/tiles/signLeft.png", x, y, config.TILE_SCALING)
+        super().__init__(":resources:images/tiles/signExit.png", x, y, config.TILE_SCALING)
         self.text = "Press [E] to Open Armory"
 
     def on_interact(self, player, game_window):

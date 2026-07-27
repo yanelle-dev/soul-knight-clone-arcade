@@ -206,10 +206,7 @@ class GameWindow(arcade.Window):
 
         # Проверяем, есть ли враги ВНУТРИ этой комнаты (используем границы)
         for enemy in self.level_generator.enemy_list:
-            # Простой способ: если враг принадлежит этой комнате
-            # Мы передали room_rect врагу, можно проверить через него
             if hasattr(enemy, 'room_rect'):
-                # Проверяем пересечение координат
                 if (enemy.center_x > (rect.left * ts) and enemy.center_x < (rect.right * ts) and
                         enemy.center_y > (rect.bottom * ts) and enemy.center_y < (rect.top * ts)):
                     enemies_alive += 1
@@ -240,16 +237,15 @@ class GameWindow(arcade.Window):
 
     def on_draw(self):
         self.clear()
-        if self.camera: self.camera.use()
+        if self.camera: 
+            self.camera.use()
 
         if self.current_state == GameState.LOBBY:
-            self.lobby.floor_list.draw()
-            self.lobby.wall_list.draw()
-            self.lobby.decor_list.draw()
-            self.lobby.interactable_list.draw()
+            if self.lobby:
+                self.lobby.draw()
             self.player_list.draw()
             self.player.weapon_list.draw()
-            if self.interact_text.value:
+            if self.interact_text.text:
                 self.interact_text.draw()
         elif self.current_state in [GameState.PLAYING, GameState.PAUSED, GameState.GAME_OVER]:
             self.draw_game()
@@ -326,7 +322,6 @@ class GameWindow(arcade.Window):
                 hit_list = arcade.check_for_collision_with_list(self.player, self.lobby.interactable_list)
                 if hit_list:
                     item = hit_list[0]
-                    # У каждого интерактивного объекта своя логика взаимодействия
                     item.on_interact(self.player, self)
 
         elif self.current_state == GameState.SKIN_SELECT:
@@ -404,7 +399,6 @@ class GameWindow(arcade.Window):
                                 if isinstance(enemy, Boss):
                                     self.current_state = GameState.VICTORY
                                     arcade.play_sound(self.victory_sound)
-                                # Создаем кристалл и добавляем очки (анимация смерти запущена в take_damage)
                                 crystal = CrystalDrop(enemy.center_x, enemy.center_y, amount=5)
                                 self.level_generator.item_list.append(crystal)
                                 self.player.score += 10
@@ -423,13 +417,16 @@ class GameWindow(arcade.Window):
             self.update_game(delta_time)
 
     def update_lobby(self, delta_time):
+        if not self.physics_engine or not self.lobby:
+            return
+
         self.physics_engine.update()
         self.player_list.update(delta_time)
-        self.interact_text.value = ""
+        self.interact_text.text = ""
         closest_item = arcade.check_for_collision_with_list(self.player, self.lobby.interactable_list)
         if closest_item:
             item = closest_item[0]
-            self.interact_text.value = item.text
+            self.interact_text.text = item.text
             self.interact_text.x = self.player.center_x
             self.interact_text.y = self.player.center_y + 50
 
@@ -443,10 +440,8 @@ class GameWindow(arcade.Window):
         all_obstacles.extend(self.level_generator.wall_list)
         all_obstacles.extend(self.level_generator.door_list)
 
-        # Обновляем врагов (теперь с проверкой пуль босса)
         enemies_to_remove = []
         for enemy in self.level_generator.enemy_list:
-            # Проверяем анимацию смерти
             if hasattr(enemy, 'is_dying') and enemy.is_dying:
                 if enemy.update_death_animation(delta_time):
                     enemies_to_remove.append(enemy)
@@ -454,14 +449,11 @@ class GameWindow(arcade.Window):
             
             result = enemy.update_with_physics(delta_time, all_obstacles)
             if result:
-                # Если враг вернул список пуль (Босс)
                 if isinstance(result, list):
                     self.enemy_bullet_list.extend(result)
-                # Если враг вернул одну пулю (Робот)
                 else:
                     self.enemy_bullet_list.append(result)
         
-        # Удаляем мертвых врагов после анимации
         for enemy in enemies_to_remove:
             if enemy in self.level_generator.enemy_list:
                 self.level_generator.enemy_list.remove(enemy)
@@ -471,11 +463,8 @@ class GameWindow(arcade.Window):
         self.level_generator.door_list.update(delta_time)
         self.scroll_to_player()
 
-        # ЛОГИКА ВОЛН
         self.update_room_logic()
 
-        # ЛОГИКА ПОРТАЛА
-        # Портал активен, если все комнаты зачищены (нет активных волн)
         all_cleared = True
         for key, data in self.level_generator.rooms_data.items():
             if not data['cleared']:
@@ -506,13 +495,10 @@ class GameWindow(arcade.Window):
                     self.particle_system.add_hit_effect(enemy.center_x, enemy.center_y, arcade.color.RED)
                     enemy.take_damage(bullet.damage)
                     if enemy.hp <= 0 and not (hasattr(enemy, 'is_dying') and enemy.is_dying):
-                        # Звук смерти врага
                         arcade.play_sound(self.enemy_death_sound)
-                        # Проверка на босса -> победа
                         if isinstance(enemy, Boss):
                             self.current_state = GameState.VICTORY
                             arcade.play_sound(self.victory_sound)
-                        # Создаем кристалл и добавляем очки (анимация смерти запущена в take_damage)
                         crystal = CrystalDrop(enemy.center_x, enemy.center_y, amount=5)
                         self.level_generator.item_list.append(crystal)
                         self.player.score += 10
